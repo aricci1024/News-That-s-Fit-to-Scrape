@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Scraping With Mongoose</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.0.0/materia/bootstrap.min.css">
+    <style>
+      html {
+        font-size: 12px;
+      }
+
+      li { 
+          margin-bottom: 1%;
+      }
+
+      p {
+        font-size: 16px;
+        margin-left: 1%;
+        margin-top: 1%;
+      }
+
+      #bodyinput {
+        width: 50%;
+      }
+
+      .jumbotron {
+        overflow: hidden;
+        background-size: 100%;
+        background-position: center;
+        background-image: url('/img/business-coffee-1-1573107.jpg');
+        background-repeat: no-repeat;
+        height: 400px;
+        width: 100%;
+      }
+
+      .jumbotron .caption {
+        position: absolute;
+        top: 20%;
+        width: 100%;
+        text-align: center;
+        color: white;
+      }
+
+      .jumbotron h1 {
+        font-size: 80px;
+        font-weight: 800;
+      }
+
+      .jumbotron p {
+        font-size: 30px;
+        font-weight: 200;
+      }
+
+      .panel-heading.row {
+        width: 100%;
+        margin-left: 0%;
+      }
+
+      .panel-primary {
+        height: 135px;
+      }
+
+      #savenote {
+        display: block;
+      }
+
+      .card .card-header {
+        background-color: #2196f3;
+        position: relative;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+
+      .card .card-header .article-link {
+        color: white;
+        display: inline-block;
+        width: 90%;
+      }
+
+      .card .card-header .btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Mongo Scraper</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/saved">Saved Articles</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-danger scrape-new">SCRAPE NEW ARTICLES!</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="jumbotron text-center">
+    <div class="overlay">
+    </div>
+    <div class="background-image">
+    </div>
+    <div class="caption">
+      <h1>Mongo Scraper</h1>
+      <p>New York Times Edition</p>
+    </div>
+  </div>
+  <!-- <div class="container-fluid article-container">
+    <div data-_id="5b3e23ca41973900142cd15a" class="card">
+      <div class="card-header">
+        <h3>
+          <a class="article-link" target="_blank" rel="noopener noreferrer" href="https://www.nytimes.com/2018/07/04/realestate/650000-homes-rhode-island-missouri-tennessee.html">$650,000 Homes in Rhode Island, Missouri and Tennessee</a>
+          <a class="btn btn-success save">Save Article</a>
+        </h3>
+      </div>
+      <div class="card-body">A Cape Cod-style house in Newport, an 1895 home in St. Louis and a log cabin in Nashville.</div>
+    </div>
+  </div> -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+  <script src="/assets/javascript/index.js"></script>
+    
+    
+  
+  
+  </body>
+</html>
