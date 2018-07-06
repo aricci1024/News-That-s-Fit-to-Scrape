@@ -18,10 +18,10 @@ router.get("/save", function(req, res) {
       console.log(error);
     }
     else {
-      var ArticleObject = {
+      var ArticleO = {
         articles: doc
       };
-      res.render("save", ArticleObject);
+      res.render("save", ArticleO);
     }
   });
 });
@@ -30,21 +30,28 @@ router.get("/save", function(req, res) {
 router.post("/scrape", function(req, res) {
   request("http://www.nytimes.com/", function(error, response, html) {
     var $ = cheerio.load(html);
+    var scraped = {};
     $("article h2").each(function(i, element) {
       var result = {};
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
+      scraped[i] = result;
     });
-    res.render("index");
+    var ArticleO = {
+        articles: scraped
+    };
+    res.render("index", ArticleO);
   });
 });
 
 
+// posts to the saved route
 router.post("/save", function(req, res) {
-  var newArticleObject = {};
-  newArticleObject.title = req.body.title;
-  newArticleObject.link = req.body.link;
-  var entry = new Article(newArticleObject);
+  var newArticle = {};
+
+  newArticle.title = req.body.title;
+  newArticle.link = req.body.link;
+  var entry = new Article(newArticle);
   entry.save(function(err, doc) {
     if (err) {
       console.log(err);
@@ -58,14 +65,25 @@ router.post("/save", function(req, res) {
 
 
 router.get("/delete/:id", function(req, res) {
-  Article.findOneAndRemove({"_id": req.params.id}, function (err, doc) {
+  Article.findOneAndRemove({"_id": req.params.id}, function (err, offer) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("OK");
+    }
+    res.redirect("/save");
+  });
+});
+
+
+router.get("/notes/:id", function(req, res) {
+  Note.findOneAndRemove({"_id": req.params.id}, function (err, doc) {
     if (err) {
       console.log(err);
     } else {
       console.log("OK");
     }
     res.send(doc);
-    res.redirect("/save");
   });
 });
 
@@ -78,6 +96,7 @@ router.get("/articles/:id", function(req, res) {
       console.log(err);
     }
     else {
+      console.log(doc);
       res.json(doc);
     }
   });
@@ -86,17 +105,18 @@ router.get("/articles/:id", function(req, res) {
 
 router.post("/articles/:id", function(req, res) {
   var newNote = new Note(req.body);
-  newNote.save(function(err, doc) {
+  newNote.save(function(error, doc) {
     if (error) {
-      console.log(err);
+      console.log(error);
     }
     else {
-      Article.findOneAndUpdate({ "_id": req.params.id }, {$push: {notes: doc._id}}, {new: true})
+      Article.findOneAndUpdate({ "_id": req.params.id }, {$push: {notes: doc._id}}, {new: true, upsert: true})
       .populate('notes')
       .exec(function (err, doc) {
         if (err) {
           console.log(err);
         } else {
+          console.log(doc.notes);
           res.send(doc);
         }
       });
@@ -104,4 +124,5 @@ router.post("/articles/:id", function(req, res) {
   });
 });
 
+// Export routes for server.js
 module.exports = router;

@@ -40,7 +40,7 @@
               <h3 class="panel-title pull-left">{{this.title}}</h3>
             </div>
             <div class="col-xs-5">
-              <button id="modalbutton" type="submit" class="btn btn-default pull-right" data-toggle="modal" data-id={{this.id}} data-target="#myModal">Add Notes</button>
+              <button id="modalnotebutton" type="submit" class="btn btn-default pull-right" data-toggle="modal" data-id={{this.id}} data-target="#myModal">Add Note</button>
             </div>
             <div class="col-xs-1">
               <form action="/delete/{{this.id}}?_method=DELETE method="POST"">
@@ -67,7 +67,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Notes for Articles<span id="articleID"></span></h4>
+        <h4 class="modal-title" id="myModalLabel">Notes</h4>
       </div>
       <div class="modal-body">
         <div id="notes"></div>
@@ -79,7 +79,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <script>
-$(document).on("click", "#modalbutton", function() {
+$(document).on("click", "#modalnotebutton", function() {
   $("#notes").empty();
   var thisId = $(this).attr("data-id");
   $("#articleID").text(thisId);
@@ -87,51 +87,19 @@ $(document).on("click", "#modalbutton", function() {
     method: "GET",
     url: "/articles/" + thisId
   })
-    .done(function(data) {
+    .then(function(data) {
       console.log(data);
-      $("#notes").append("<p id='actualnotes'></p>");
+      $("#notes").append("<p id='thenotes'></p>");
       if (data.notes) {
-        $("#actualnotes").append("<ul id='notelist'>");
+        $("#thenotes").append("<ul id='notelist'>");
           for (var i = 0; i < data.notes.length; i++) {
-            $('#notelist').append("<li id='" + data.notes[i]._id + "'>" + data.notes[i].body + " " +
-            "<button data-id='" + data.notes[i]._id +
-            "' id='deletenote'>X</button></li>");
+            $('#notelist').append("<li id='" + data.notes[i]._id + "'>" + data.notes[i].body + " " + "<button data-id='" + data.notes[i]._id + "' id='deletenote'>Delete note</button></li>");
           }
-        $('#actualnotes').append("</ul>");
-      } else {
-        $('#actualnotes').text("There aren't any notes yet.");
-      }
+        $('#thenotes').append("</ul>");
+      } 
       $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
       $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
     });
 });
-$(document).on("click", "#savenote", function() {
-  var thisId = $(this).attr("data-id");
-  $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      body: $("#bodyinput").val()
-    }
-  })
-    .done(function(data) {
-      $("#notelist").empty();
-      for (var i = 0; i < data.notes.length; i++) {
-        $("#notelist").append("<li id='" + data.notes[i]._id + "'>" + data.notes[i].body + " " + "<button data-id='" + data.notes[i]._id +
-        "' id='deletenote'>X</button></li>");
-      }
-    });
-  $("#bodyinput").val("");
-});
 
-$(document).on("click", "#deletenote", function() {
-  var thisId = $(this).attr("data-id");
-  $.ajax({
-    method: "GET",
-    url: "/notes/" + thisId,
-  })
-    .done(function(data) {
-      $("#" + data._id).remove();
-    });
-});
 </script>
