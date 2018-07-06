@@ -46,19 +46,19 @@ app.get("/scrape", function(req, res) {
             result.title = $(this).children("a").text();
             result.link = $(this).children("a").attr("href");
     
-                db.Article.create(result)
-                .then(function(dbArticle) {
-                    console.log(dbArticle);
-                })
-                .catch(function(err) {
-                    return res.json(err);
-                });
+            db.Article.create(result)
+            .then(function(dbArticle) {
+                console.log(dbArticle);
+            })
+            .catch(function(err) {
+                return res.json(err);
+            });
       });
         res.redirect("index");
     });
 });
   
-
+//EDIT
 app.post("/save", function(req, res) {
     var addArticle = {};
     addArticle.title = req.body.title;
